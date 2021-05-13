@@ -1,0 +1,42 @@
+package ${package}.${moduleName}.repository;
+
+import ${package}.${moduleName}.domain.${className};
+import org.springframework.data.jpa.domain.Specification;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+#foreach ($column in $columns)
+#if($column.attrType != "String")
+import java.util.${column.attrType};
+#end
+#end
+
+/**
+ * @author ${author}
+ * @date ${datetime}
+ */
+public class ${className}Specifications {
+    public static Specification<DataService> queryList(DataService dataService) {
+        return new Specification<${className}>() {
+            @Override
+            public Predicate toPredicate(Root<${className}> root, CriteriaQuery<?> query,CriteriaBuilder builder) {
+                List<Predicate> predicates = new ArrayList<>();
+        #foreach ($column in $columns)
+            if (${classname}.get${column.attrName}() != null) {
+            #if($column.attrType == "String")
+                predicates.add(builder.like(root.get("$column.attrname" ).as(String.class), "%" + ${classname}.get${column.attrName}() + "%" ));
+            #end
+            #if($column.attrType != "String")
+                predicates.add(builder.equal(root.get("$column.attrname" ).as(${column.attrType}.class), ${classname}.get${column.attrName}()));
+            #end
+            }
+        #end
+             Predicate[] p = new Predicate[predicates.size()];
+                return query.where(builder.and(predicates.toArray(p))).getRestriction();
+            }
+        };
+    }
+}

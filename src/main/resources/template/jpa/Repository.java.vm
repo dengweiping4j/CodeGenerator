@@ -1,0 +1,18 @@
+package ${package}.${moduleName}.repository;
+
+import ${package}.${moduleName}.domain.${className};
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ *
+ */
+@Repository
+public interface ${className}Repository extends JpaRepository<${className}, String>, JpaSpecificationExecutor<${className}> {
+
+}

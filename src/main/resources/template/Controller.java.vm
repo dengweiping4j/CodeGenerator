@@ -1,0 +1,130 @@
+package ${package}.${moduleName}.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import ${package}.${moduleName}.domain.${className};
+import ${package}.${moduleName}.service.${className}Service;
+import java.util.List;
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/api/${pathName}" )
+public class ${className}Controller {
+
+    @Autowired
+    private ${className}Service ${classname}Service;
+
+    /**
+     * 分页查询
+     *
+     * @param ${classname}
+     * @param pagination
+     * @return
+     */
+    @ApiOperation(value = "分页查询",
+            notes = "分页查询",
+            produces = "application/json" )
+    @ApiResponses({@ApiResponse(code = 200, message = "查询成功" )})
+    @RequestMapping(value = "/query", method = RequestMethod.POST)
+    public ResponseEntity<Object> query(@RequestBody ${className} ${classname}, @Valid Pagination pagination) {
+        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getPageSize());
+        Page<${className}> data = ${classname}Service.query(${classname}, pageable);
+        return ResponseEntity.ok(new PaginationSuccessDTO<>(data));
+    }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询所有", notes = "查询所有", produces = "application/json" )
+    @ApiResponses({@ApiResponse(code = 200, message = "查询成功!" ),
+            @ApiResponse(code = 204, message = "没有内容!" )})
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<${className}>> getAll() {
+        List<${className}> list = ${classname}Service.getAll();
+        if (list == null || list.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(list);
+    }
+
+    /**
+     * 查询
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("查询" )
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<${className}> get(@PathVariable("id" ) String id) {
+        ${className} ${classname} =${classname}Service.findById(id);
+        if (${classname} ==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(${classname}, HttpStatus.OK);
+    }
+
+    /**
+     * 新增
+     *
+     * @param ${classname}
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Object> create(@RequestBody ${className} ${classname}) {
+        ${className} result = ${classname}Service.create(${classname});
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    /**
+     * 更新
+     *
+     * @param id
+     * @param ${classname}
+     * @return
+     */
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> update(@PathVariable("id" ) String id, @RequestBody ${className} ${classname}) {
+        ${className} currentItem = ${classname}Service.findById(id);
+        if (currentItem == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(${classname}Service.update(id, ${classname}), HttpStatus.OK);
+    }
+
+    /**
+     * 删除
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> delete(@PathVariable("id" ) String id) {
+        ${className} item = ${classname}Service.findById(id);
+        if (item == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+            ${classname}Service.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+}

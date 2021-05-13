@@ -1,0 +1,40 @@
+package ${package}.${moduleName}.domain;
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+import java.io.Serializable;
+import java.util.Date;
+import lombok.Data;
+
+import javax.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Entity
+@Data
+@Table(name = "${tableName}" )
+public class ${className} implements Serializable{
+
+private static final long serialVersionUID=1L;
+
+#foreach ($column in $columns)
+/**
+ *  $column.comments
+ */
+@Column(name = "$column.columnName" )
+    #if($column.columnName == $pk.columnName)
+    @Id
+    @GenericGenerator(name = "uuid2", strategy = "uuid2" )
+    @GeneratedValue(generator = "uuid2" )
+    #end
+private $column.attrType $column.attrname;
+
+#end
+
+}
