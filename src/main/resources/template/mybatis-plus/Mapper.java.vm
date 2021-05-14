@@ -1,5 +1,6 @@
-package ${package}.${moduleName}.dao;
+package ${package}.${moduleName}.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import ${package}.${moduleName}.entity.${className};
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,6 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public interface ${className}Mapper {
+public interface ${className}Mapper extends BaseMapper<${className}> {
 
 }

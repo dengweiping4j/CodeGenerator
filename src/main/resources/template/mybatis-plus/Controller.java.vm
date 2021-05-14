@@ -2,7 +2,7 @@ package ${package}.${moduleName}.controller;
 
 import java.util.ArrayList;
 import java.util.Map;
-import ${package}.${moduleName}.domain.${className};
+import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
 import ${package}.${moduleName}.utils.Pagination;
 import ${package}.${moduleName}.utils.PaginationSuccessDTO;

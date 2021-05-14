@@ -1,13 +1,15 @@
-package ${package}.${moduleName}.domain;
+package ${package}.${moduleName}.entity;
 
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
 import java.io.Serializable;
 import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -16,8 +18,9 @@ import org.hibernate.annotations.GenericGenerator;
  * @author ${author}
  * @date ${datetime}
  */
+@Entity
 @Data
-@TableName("${tableName}")
+@Table(name = "${tableName}" )
 public class ${className} implements Serializable{
 
 private static final long serialVersionUID=1L;
@@ -26,9 +29,11 @@ private static final long serialVersionUID=1L;
 /**
  *  $column.comments
  */
-@TableField("$column.columnName")
+@Column(name = "$column.columnName" )
     #if($column.columnName == $pk.columnName)
-    @TableId
+    @Id
+    @GenericGenerator(name = "uuid2", strategy = "uuid2" )
+    @GeneratedValue(generator = "uuid2" )
     #end
 private $column.attrType $column.attrname;
 

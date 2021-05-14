@@ -166,7 +166,7 @@ public class DataConnectionService {
         if (StringUtils.isBlank(url)) {
             switch (type) {
                 case DataConnection.MYSQL:
-                    url = "jdbc:mysql://" + ip + ":" + port + "/" + database+"?useOldAliasMetadataBehavior=true";
+                    url = "jdbc:mysql://" + ip + ":" + port + "/" + database + "?useOldAliasMetadataBehavior=true";
                     break;
                 case DataConnection.POSTGRESQL:
                 case DataConnection.T_BASE:
@@ -247,16 +247,24 @@ public class DataConnectionService {
         if (StringUtils.isBlank(driverPath)) {
             return null;
         }
-        DriverPath driverPath1 = driverPathRepository.findByDriverAndType(driverPath, type);
-        File file = new File(driverPath1.getPath());
+        DriverPath driverObj = driverPathRepository.findByDriverAndType(driverPath, type);
+        ClassLoader classLoader = getClass().getClassLoader();
+        /**
+         getResource()方法会去classpath下找这个文件，获取到url resource, 得到这个资源后，调用url.getFile获取到 文件 的绝对路径
+         */
+        URL url = classLoader.getResource(driverObj.getPath());
+        /**
+         * url.getFile() 得到这个文件的绝对路径
+         */
+        File file = new File(url.getFile());
+
         if (!file.exists()) {
-            System.out.println(driverPath + " 对应的驱动jar不存在.");
+            LOGGER.error("{} 对应的驱动jar不存在.",driverPath);
             return null;
         }
 
         URLClassLoader loader = new URLClassLoader(new URL[]{file.toURI().toURL()}, null);
         loader.clearAssertionStatus();
-
         Driver driver = (Driver) Class.forName(driverPath, true, loader).newInstance();
         return driver;
     }
@@ -324,6 +332,7 @@ public class DataConnectionService {
 
     /**
      * 条件查询
+     *
      * @param queryDTO
      * @return
      */
@@ -794,12 +803,12 @@ public class DataConnectionService {
                 column.setColumnType(map.get("DATA_TYPE") == null ? null : map.get("DATA_TYPE").toString());
                 String columnTypeLength = map.get("COLUMN_TYPE").toString();
                 column.setColumnComment(map.get("COLUMN_COMMENT") == null ? null : map.get("COLUMN_COMMENT").toString());
-                column.setPrimary("PRI".equals(map.get("COLUMN_KEY")));
+                column.setPrimary("PRI" .equals(map.get("COLUMN_KEY")));
             } else {
                 column.setColumnName(map.get("columnName") == null ? null : map.get("columnName").toString());
                 column.setColumnType(map.get("columnType") == null ? null : map.get("columnType").toString());
                 column.setColumnComment(map.get("columnComment") == null ? null : map.get("columnComment").toString());
-                column.setPrimary("PRI".equals(map.get("columnKey")));
+                column.setPrimary("PRI" .equals(map.get("columnKey")));
             }
             resultList.add(column);
         }

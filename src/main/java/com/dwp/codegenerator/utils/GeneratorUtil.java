@@ -23,28 +23,37 @@ import java.util.zip.ZipOutputStream;
 
 public class GeneratorUtil {
 
+    /**
+     * 使用自定义模板
+     *
+     * @param generatorType
+     * @return
+     */
     public static List<String> getTemplates(String generatorType) {
         List<String> templates = new ArrayList<>();
-        //使用自定义模板
-        templates.add("template/jpa/Service.java.vm");
-        templates.add("template/jpa/Controller.java.vm");
-        templates.add("template/jpa/Domain.java.vm");
-
         switch (generatorType) {
             case "jpa":
                 templates.add("template/jpa/Repository.java.vm");
                 templates.add("template/jpa/Specifications.java.vm");
+                templates.add("template/jpa/Service.java.vm");
+                templates.add("template/jpa/Controller.java.vm");
+                templates.add("template/jpa/Domain.java.vm");
                 break;
             case "mybatis":
-                templates.add("template/mybatis/mapper.java.vm");
-                templates.add("template/mybatis/mapper.xml.vm");
+                templates.add("template/mybatis/Mapper.java.vm");
+                templates.add("template/mybatis/Mapper.xml.vm");
+                templates.add("template/mybatis/Service.java.vm");
+                templates.add("template/mybatis/Controller.java.vm");
+                templates.add("template/mybatis/Entity.java.vm");
                 break;
             case "mybatis-plus":
-                templates.add("template/mybatis-plus/mapper.java.vm");
-                templates.add("template/mybatis-plus/mapper.xml.vm");
+                templates.add("template/mybatis-plus/Mapper.java.vm");
+                templates.add("template/mybatis-plus/Mapper.xml.vm");
+                templates.add("template/mybatis-plus/Service.java.vm");
+                templates.add("template/mybatis-plus/Controller.java.vm");
+                templates.add("template/mybatis-plus/Entity.java.vm");
                 break;
         }
-
         return templates;
     }
 
@@ -181,10 +190,18 @@ public class GeneratorUtil {
         }
 
         if (StringUtils.isNotBlank(templateName)) {
+            String afterClassName = templateName.substring(templateName.lastIndexOf("/") + 1, templateName.indexOf("."));
+
             if (templateName.contains("template/jpa/Specifications.java.vm")) {
                 return packagePath + "repository" + File.separator + className + "Specifications.java";
+            } else if (templateName.contains("template/mybatis/Mapper.xml.vm") || templateName.contains("template/mybatis-plus/Mapper.xml.vm")) {
+                return packagePath + afterClassName.toLowerCase() + File.separator + className + afterClassName + ".xml";
+            } else if (templateName.contains("template/jpa/Domain.java.vm")
+                    || templateName.contains("template/mybatis/Entity.java.vm")
+                    || templateName.contains("template/mybatis-plus/Entity.java.vm")) {
+                return packagePath + afterClassName.toLowerCase() + File.separator + className + ".java";
             } else {
-                return packagePath + templateName.substring(0, templateName.indexOf(".")) + File.separator + className + ".java";
+                return packagePath + afterClassName.toLowerCase() + File.separator + className + afterClassName + ".java";
             }
         }
 

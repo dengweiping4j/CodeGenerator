@@ -24,6 +24,12 @@ public class GeneratorService {
     @Autowired
     private DataConnectionService dataConnectionService;
 
+    /**
+     * 代码生成
+     *
+     * @param params
+     * @return
+     */
     public byte[] generatorCode(GeneratorParamsDTO params) {
         if (params.getTables() == null || params.getTables().size() == 0) {
             return null;
@@ -50,7 +56,7 @@ public class GeneratorService {
             generatorParams.setModuleName(params.getModuleName());
             generatorParams.setPackageName(params.getPackageName());
             generatorParams.setColumns(columns);
-
+            generatorParams.setGeneratorType(params.getGeneratorType());
             GeneratorUtil.generatorCode(generatorParams, zip);
         }
 
@@ -58,7 +64,7 @@ public class GeneratorService {
         return outputStream.toByteArray();
     }
 
-    public byte[] generatorCode(String dataConnectionId,String[] tableNames, String moduleName, String packageName, String author,String generatorType) {
+    public byte[] generatorCode(String dataConnectionId, String[] tableNames, String moduleName, String packageName, String author, String generatorType) {
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
