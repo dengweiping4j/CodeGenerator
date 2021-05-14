@@ -26,9 +26,9 @@ public class GeneratorUtil {
     public static List<String> getTemplates(String generatorType) {
         List<String> templates = new ArrayList<>();
         //使用自定义模板
-        templates.add("template/Service.java.vm");
-        templates.add("template/Controller.java.vm");
-        templates.add("template/Domain.java.vm");
+        templates.add("template/jpa/Service.java.vm");
+        templates.add("template/jpa/Controller.java.vm");
+        templates.add("template/jpa/Domain.java.vm");
 
         switch (generatorType) {
             case "jpa":

@@ -1,2 +1,8 @@
+spring:
+  application:
+    name: code-generator
+  profiles:
+    active: dev
+
 server:
   port: 8080

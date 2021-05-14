@@ -1,6 +1,7 @@
 package ${package}.${moduleName}.dao;
 
 import ${package}.${moduleName}.entity.${className};
+import org.springframework.stereotype.Component;
 
 /**
  * ${comments}
@@ -9,6 +10,7 @@ import ${package}.${moduleName}.entity.${className};
  * @date ${datetime}
  *
  */
+@Component
 public interface ${className}Mapper {
 
 }

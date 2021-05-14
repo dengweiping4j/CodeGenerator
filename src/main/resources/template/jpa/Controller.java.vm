@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.controller;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Map;
 
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +17,6 @@ import ${package}.${moduleName}.domain.${className};
 import ${package}.${moduleName}.service.${className}Service;
 import java.util.List;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * ${comments}

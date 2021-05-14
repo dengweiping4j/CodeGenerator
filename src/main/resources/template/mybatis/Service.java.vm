@@ -1,0 +1,51 @@
+package ${package}.${moduleName}.service;
+
+import ${package}.${moduleName}.domain.${className};
+#if($generatorType == "jpa")
+import ${package}.${moduleName}.repository.${className}Repository;
+import ${package}.${moduleName}.repository.${className}Specifications;
+#end
+#if($generatorType == "mybatis-plus")
+import ${package}.${moduleName}.repository.${className}Mapper;
+#end
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${className}Service {
+
+    @Autowired
+    private ${className}Repository ${classname}Repository;
+
+    public Page<${className}> query(${className} ${classname}, Pageable pageable) {
+        return ${classname}Repository.findAll(${className}Specifications.queryList(${classname}), pageable);
+    }
+
+    public List<${className}> getAll() {
+        return ${classname}Repository.findAll();
+    }
+
+    public ${className} findById(String id) {
+        return ${classname}Repository.findById(id).orElse(null);
+    }
+
+    public ${className} create(${className} ${classname}) {
+        return ${classname}Repository.save(${classname});
+    }
+
+    public ${className} update(String id, ${className} ${classname}) {
+        return ${classname}Repository.save(${classname});
+    }
+
+    public void delete(String id) {
+            ${classname}Repository.deleteById(id);
+    }
+}
