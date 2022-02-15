@@ -78,11 +78,12 @@ public class GeneratorUtil {
         List<ColumnEntity> columnsList = new ArrayList<>();
         for (DatabaseColumn column : generatorParams.getColumns()) {
             ColumnEntity columnEntity = new ColumnEntity();
-
+            columnEntity.setColumnName(column.getColumnName());
             //列名转换成Java属性名
             String attrName = columnToJava(column.getColumnName());
             columnEntity.setUpperAttrName(attrName);
             columnEntity.setLowerAttrName(StringUtils.uncapitalize(attrName));
+            columnEntity.setComments(column.getColumnComment());
 
             //列的数据类型，转换成Java类型
             String attrType = config.getString(column.getColumnType(), "unknowType");

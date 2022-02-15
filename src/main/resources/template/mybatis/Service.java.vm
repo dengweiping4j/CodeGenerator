@@ -1,14 +1,16 @@
 package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.smcaiot.cloud.common.entity.PageParam;
+import com.smcaiot.cloud.common.entity.PageResult;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.utils.Pagination;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -17,27 +19,30 @@ import java.util.List;
  * @date ${datetime}
  */
 @Service
+@Slf4j
 public class ${className}Service {
 
     @Autowired
     private ${className}Mapper ${classname}Mapper;
 
-    public Page<${className}> page(${className} ${classname}, Pagination pagination) {
-        Page<${className}> page = new Page<>(pagination.getPage(), pagination.getPageSize());
-        IPage<Student> result = ${classname}Mapper.selectPage(page, ${classname});
-        return result;
+    public PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam) {
+        Page<${className}> page = PageHelper.startPage(pageParam);
+        List<${className}> list = ${classname}Mapper.findPage(${classname});
+        PageResult<${className}> pageResult = new PageResult<>();
+        pageResult.setContent(list);
+        pageResult.setTotalElements(page.getTotal());
+        return pageResult;
     }
 
-    public List<${className}> selectList(${className} ${classname}) {
-        QueryWrapper<Student> query = new QueryWrapper();
-        return ${classname}Mapper.selectList(query);
+    public List<${className}> findAll() {
+        return ${classname}Mapper.findAll();
     }
 
     public ${className} findById(String id) {
-        return ${classname}Mapper.selectById(id);
+        return ${classname}Mapper.findById(id);
     }
 
-    public int create(${className} ${classname}) {
+    public int save(${className} ${classname}) {
         return ${classname}Mapper.insert(${classname});
     }
 

@@ -2,9 +2,82 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${package}.${moduleName}.mapper.${className}Mapper">
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="${package}.${moduleName}.entity.${className}" id="${classname}Map">
+    <resultMap type="${package}.${moduleName}.entity.${className}" id="BaseResultMap">
         #foreach($column in $columns)
-            <result property="${column.attrType}" column="${column.columnName}"/>
+            <result property="${column.columnName}" column="${column.lowerAttrName}"/>
         #end
     </resultMap>
+
+    <sql id="Base_Column_List">
+        #foreach($column in $columns)
+        ${column.columnName},
+        #end
+    </sql>
+
+    <select id="findAll" parameterType="${package}.${moduleName}.entity.${className}" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ${tableName}
+        <where>
+            #foreach($column in $columns)
+                <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} !=''">
+                    AND ${column.columnName} = #{${column.lowerAttrName}}
+                </if>
+            #end
+        </where>
+    </select>
+
+    <select id="findPage" parameterType="${package}.${moduleName}.entity.${className}" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ${tableName}
+        <where>
+            #foreach($column in $columns)
+                <if test="${column.lowerAttrName} != null and ${column.lowerAttrName} !=''">
+                    AND ${column.columnName} = #{${column.lowerAttrName}}
+                </if>
+            #end
+        </where>
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ${tableName}
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="${package}.${moduleName}.entity.${className}">
+        insert into ${tableName}
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach($column in $columns)
+                <if test="${column.lowerAttrName} != null">
+                    ${column.columnName},
+                </if>
+            #end
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #foreach($column in $columns)
+                <if test="${column.lowerAttrName} != null">
+                    #{${column.lowerAttrName},jdbcType=VARCHAR},
+                </if>
+            #end
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="${package}.${moduleName}.entity.${className}">
+        update ${tableName}
+        <set>
+            #foreach($column in $columns)
+                <if test="${column.lowerAttrName} != null">
+                    ${column.columnName} = #{${column.lowerAttrName},jdbcType=VARCHAR},
+                </if>
+            #end
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <update id="deleteById">
+        update ${tableName} set del_flag = '1' where id = #{id,jdbcType=VARCHAR}
+    </update>
 </mapper>

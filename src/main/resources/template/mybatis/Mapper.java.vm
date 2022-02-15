@@ -1,8 +1,9 @@
 package ${package}.${moduleName}.mapper;
 
 import ${package}.${moduleName}.entity.${className};
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 /**
  * ${comments}
  *
@@ -10,7 +11,18 @@ import org.springframework.stereotype.Component;
  * @date ${datetime}
  *
  */
-@Component
+@Mapper
 public interface ${className}Mapper {
 
+    List<${className}> findAll();
+
+    List<${className}> findPage(${className} ${classname});
+
+    ${className} findById(String id);
+
+    int insert(${className} ${classname});
+
+    int updateById(${className} ${classname});
+
+    int deleteById(String id);
 }

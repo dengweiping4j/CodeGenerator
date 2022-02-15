@@ -5,9 +5,6 @@ import java.math.BigDecimal;
 #end
 import java.io.Serializable;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -18,9 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author ${author}
  * @date ${datetime}
  */
-@Entity
 @Data
-@Table(name = "${tableName}" )
 public class ${className} implements Serializable{
 
 private static final long serialVersionUID=1L;
@@ -29,13 +24,7 @@ private static final long serialVersionUID=1L;
 /**
  *  $column.comments
  */
-@Column(name = "$column.columnName" )
-    #if($column.columnName == $pk.columnName)
-    @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2" )
-    @GeneratedValue(generator = "uuid2" )
-    #end
-private $column.attrType $column.attrname;
+private ${column.attrType} ${column.LowerAttrName};
 
 #end
 

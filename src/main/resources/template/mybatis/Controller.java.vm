@@ -1,8 +1,5 @@
 package ${package}.${moduleName}.controller;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.smcaiot.cloud.common.entity.PageParam;
+import com.smcaiot.cloud.common.entity.PageResult;
+import com.smcaiot.cloud.common.entity.RestResp;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
+
 import java.util.List;
 import javax.validation.Valid;
 
@@ -25,7 +26,7 @@ import javax.validation.Valid;
  * @date ${datetime}
  */
 @RestController
-@RequestMapping("/api/${pathName}" )
+@RequestMapping("/api/${pathName}")
 public class ${className}Controller {
 
     @Autowired
@@ -35,18 +36,17 @@ public class ${className}Controller {
      * 分页查询
      *
      * @param ${classname}
-     * @param pagination
+     * @param pageParam
      * @return
      */
     @ApiOperation(value = "分页查询",
             notes = "分页查询",
-            produces = "application/json" )
-    @ApiResponses({@ApiResponse(code = 200, message = "查询成功" )})
-    @RequestMapping(value = "/query", method = RequestMethod.POST)
-    public ResponseEntity<Object> query(@RequestBody ${className} ${classname}, @Valid Pagination pagination) {
-        Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getPageSize());
-        Page<${className}> data = ${classname}Service.query(${classname}, pageable);
-        return ResponseEntity.ok(new PaginationSuccessDTO<>(data));
+            produces = "application/json")
+    @ApiResponses({@ApiResponse(code = 200, message = "查询成功")})
+    @RequestMapping(value = "/findPage", method = RequestMethod.POST)
+    public RestResp<PageResult<${className}>> findPage(@RequestBody ${className} ${classname}, @Valid PageParam pageParam) {
+        PageResult<${className}> result = ${classname}Service.findPage(${classname}, pageParam);
+        return RestResp.successRestResp(result);
     }
 
     /**
@@ -54,16 +54,13 @@ public class ${className}Controller {
      *
      * @return
      */
-    @ApiOperation(value = "查询所有", notes = "查询所有", produces = "application/json" )
-    @ApiResponses({@ApiResponse(code = 200, message = "查询成功!" ),
-            @ApiResponse(code = 204, message = "没有内容!" )})
+    @ApiOperation(value = "查询所有", notes = "查询所有", produces = "application/json")
+    @ApiResponses({@ApiResponse(code = 200, message = "查询成功!"),
+            @ApiResponse(code = 204, message = "没有内容!")})
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<${className}>> getAll() {
-        List<${className}> list = ${classname}Service.getAll();
-        if (list == null || list.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(list);
+    public RestResp<List<${className}>> findAll() {
+        List<${className}> list = ${classname}Service.findAll();
+        return RestResp.successRestResp(list);
     }
 
     /**
@@ -72,14 +69,11 @@ public class ${className}Controller {
      * @param id
      * @return
      */
-    @ApiOperation("查询" )
+    @ApiOperation("查询", notes = "")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<${className}> get(@PathVariable("id" ) String id) {
+    public RestResp<${className}> get(@PathVariable("id") String id) {
         ${className} ${classname} =${classname}Service.findById(id);
-        if (${classname} ==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(${classname}, HttpStatus.OK);
+        return RestResp.successRestResp(${classname});
     }
 
     /**
@@ -88,26 +82,25 @@ public class ${className}Controller {
      * @param ${classname}
      * @return
      */
+    @ApiOperation(value = "新增", notes = "")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody ${className} ${classname}) {
-        ${className} result = ${classname}Service.create(${classname});
-        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    public RestResp<Object> save(@RequestBody ${className} ${classname}) {
+        int result = ${classname}Service.save(${classname});
+        return RestResp.successRestResp(result);
     }
 
     /**
-     * 更新
+     * 修改
      *
      * @param id
      * @param ${classname}
      * @return
      */
+    @ApiOperation(value = "修改", notes = "")
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> update(@PathVariable("id" ) String id, @RequestBody ${className} ${classname}) {
-        ${className} currentItem = ${classname}Service.findById(id);
-        if (currentItem == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(${classname}Service.update(id, ${classname}), HttpStatus.OK);
+    public RestResp<Object> updateById(@PathVariable("id") String id, @RequestBody ${className} ${classname}) {
+        int result = ${classname}Service.updateById(${classname});
+        return RestResp.successRestResp(result);
     }
 
     /**
@@ -116,14 +109,11 @@ public class ${className}Controller {
      * @param id
      * @return
      */
+    @ApiOperation(value = "删除", notes = "")
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable("id" ) String id) {
-        ${className} item = ${classname}Service.findById(id);
-        if (item == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-            ${classname}Service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public RestResp<Void> delete(@PathVariable("id") String id) {
+        int result = ${classname}Service.delete(id);
+        return RestResp.successRestResp(result);
     }
 
 }

@@ -10,6 +10,7 @@ import com.dwp.codegenerator.domain.vo.DataConnectionVO;
 import com.dwp.codegenerator.repository.DataConnectionRepository;
 import com.dwp.codegenerator.repository.DataConnectionSpecifications;
 import com.dwp.codegenerator.repository.DriverPathRepository;
+import com.google.common.io.Resources;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -236,6 +237,14 @@ public class DataConnectionService {
         }
     }
 
+    public static void main(String[] args) {
+        String path = Resources.getResource("drivers/mysql-connector-java-5.1.34.jar").getPath();
+        File file = new File(path);
+        if (!file.exists()) {
+            LOGGER.error("{} 对应的驱动jar不存在.");
+        }
+    }
+
     /**
      * 动态加载JDBC驱动
      *
@@ -247,19 +256,11 @@ public class DataConnectionService {
         if (StringUtils.isBlank(driverPath)) {
             return null;
         }
-        DriverPath driverObj = driverPathRepository.findByDriverAndType(driverPath, type);
-        ClassLoader classLoader = getClass().getClassLoader();
-        /**
-         getResource()方法会去classpath下找这个文件，获取到url resource, 得到这个资源后，调用url.getFile获取到 文件 的绝对路径
-         */
-        URL url = classLoader.getResource(driverObj.getPath());
-        /**
-         * url.getFile() 得到这个文件的绝对路径
-         */
-        File file = new File(url.getFile());
-
+        String jarPath = this.getDriverPath(type);
+        String path = Resources.getResource(jarPath).getPath();
+        File file = new File(path);
         if (!file.exists()) {
-            LOGGER.error("{} 对应的驱动jar不存在.",driverPath);
+            LOGGER.error("{} 对应的驱动jar不存在.", driverPath);
             return null;
         }
 
@@ -267,6 +268,21 @@ public class DataConnectionService {
         loader.clearAssertionStatus();
         Driver driver = (Driver) Class.forName(driverPath, true, loader).newInstance();
         return driver;
+    }
+
+    private String getDriverPath(String type) {
+        switch (type) {
+            case DataConnection.MYSQL:
+                return "drivers/mysql-connector-java-8.0.15.jar";
+            case DataConnection.POSTGRESQL:
+                return "drivers/postgresql-9.2-1004.jdbc3.jar";
+            case DataConnection.ORACLE:
+                return "drivers/Oracle_10g_10.2.0.4_JDBC_ojdbc14.jar";
+            case DataConnection.SQL_SERVER:
+                return "drivers/sqljdbc4.jar";
+            default:
+                return "drivers/mysql-connector-java-8.0.15.jar";
+        }
     }
 
     /**
@@ -803,12 +819,12 @@ public class DataConnectionService {
                 column.setColumnType(map.get("DATA_TYPE") == null ? null : map.get("DATA_TYPE").toString());
                 String columnTypeLength = map.get("COLUMN_TYPE").toString();
                 column.setColumnComment(map.get("COLUMN_COMMENT") == null ? null : map.get("COLUMN_COMMENT").toString());
-                column.setPrimary("PRI" .equals(map.get("COLUMN_KEY")));
+                column.setPrimary("PRI".equals(map.get("COLUMN_KEY")));
             } else {
                 column.setColumnName(map.get("columnName") == null ? null : map.get("columnName").toString());
                 column.setColumnType(map.get("columnType") == null ? null : map.get("columnType").toString());
                 column.setColumnComment(map.get("columnComment") == null ? null : map.get("columnComment").toString());
-                column.setPrimary("PRI" .equals(map.get("columnKey")));
+                column.setPrimary("PRI".equals(map.get("columnKey")));
             }
             resultList.add(column);
         }
