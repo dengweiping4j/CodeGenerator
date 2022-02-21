@@ -4,7 +4,7 @@
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="${package}.${moduleName}.entity.${className}" id="BaseResultMap">
         #foreach($column in $columns)
-            <result property="${column.columnName}" column="${column.lowerAttrName}"/>
+            <result property="${column.lowerAttrName}" column="${column.columnName}"/>
         #end
     </resultMap>
 

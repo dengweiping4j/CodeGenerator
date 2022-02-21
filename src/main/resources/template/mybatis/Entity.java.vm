@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 #end
 import java.io.Serializable;
 import java.util.Date;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * ${comments}
@@ -14,6 +16,7 @@ import lombok.Data;
  * @date ${datetime}
  */
 @Data
+@Accessors(chain = true)
 public class ${className} implements Serializable{
 
 private static final long serialVersionUID=1L;
@@ -22,6 +25,7 @@ private static final long serialVersionUID=1L;
 /**
  *  $column.comments
  */
+@ApiModelProperty("$column.comments")
 private ${column.attrType} ${column.LowerAttrName};
 
 #end
