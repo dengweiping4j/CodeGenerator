@@ -69,7 +69,7 @@ public class ${className}Controller {
      * @param id
      * @return
      */
-    @ApiOperation("查询", notes = "")
+    @ApiOperation(value = "查询", notes = "")
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public RestResp<${className}> get(@PathVariable("id") String id) {
         ${className} ${classname} =${classname}Service.findById(id);

@@ -37,7 +37,7 @@ public class GenerateCodeController {
 
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"generator-code.zip\"");
-        response.addHeader("Access-Control-Allow-Origin", "http://localhost:8001");
+        response.addHeader("Access-Control-Allow-Origin", "http://localhost:8000");
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");

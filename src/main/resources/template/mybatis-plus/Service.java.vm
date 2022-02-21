@@ -22,7 +22,7 @@ public class ${className}Service {
     @Autowired
     private ${className}Mapper ${classname}Mapper;
 
-    public IPage<${className}> page(${className} ${classname}, Pagination pagination) {
+    public PageResult<${className}> findPage(${className} ${classname}, Pagination pagination) {
         Page<${className}> page = new Page<>(pagination.getPage(), pagination.getPageSize());
         QueryWrapper<${className}> query = new QueryWrapper();
         IPage<${className}> result = ${classname}Mapper.selectPage(page, query);
