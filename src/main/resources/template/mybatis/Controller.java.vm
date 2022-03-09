@@ -2,6 +2,8 @@ package ${package}.${moduleName}.controller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,6 @@ import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
 
 import java.util.List;
-import javax.validation.Valid;
 
 /**
  * ${comments}
@@ -45,7 +46,7 @@ public class ${className}Controller {
             produces = "application/json")
     @ApiResponses({@ApiResponse(code = 200, message = "查询成功")})
     @RequestMapping(value = "/findPage", method = RequestMethod.POST)
-    public RestResp<PageResult<${className}>> findPage(@RequestBody ${className} ${classname}, @Valid PageParam pageParam) {
+    public RestResp<PageResult<${className}>> findPage(@RequestBody ${className} ${classname}, PageParam pageParam) {
         PageResult<${className}> result = ${classname}Service.findPage(${classname}, pageParam);
         return RestResp.successRestResp(result);
     }
@@ -58,7 +59,7 @@ public class ${className}Controller {
     @ApiOperation(value = "查询所有", notes = "查询所有", produces = "application/json")
     @ApiResponses({@ApiResponse(code = 200, message = "查询成功!"),
             @ApiResponse(code = 204, message = "没有内容!")})
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public RestResp<List<${className}>> findAll() {
         List<${className}> list = ${classname}Service.findAll();
         return RestResp.successRestResp(list);
@@ -71,7 +72,7 @@ public class ${className}Controller {
      * @return
      */
     @ApiOperation(value = "查询", notes = "")
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/findById/{id}", method = RequestMethod.GET)
     public RestResp<${className}> get(@PathVariable("id") String id) {
         ${className} ${classname} =${classname}Service.findById(id);
         return RestResp.successRestResp(${classname});
@@ -84,7 +85,7 @@ public class ${className}Controller {
      * @return
      */
     @ApiOperation(value = "新增", notes = "")
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public RestResp<Object> save(@RequestBody ${className} ${classname}) {
         int result = ${classname}Service.save(${classname});
         return RestResp.successRestResp(result);
@@ -93,13 +94,12 @@ public class ${className}Controller {
     /**
      * 修改
      *
-     * @param id
      * @param ${classname}
      * @return
      */
     @ApiOperation(value = "修改", notes = "")
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public RestResp<Object> updateById(@PathVariable("id") String id, @RequestBody ${className} ${classname}) {
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public RestResp<Object> updateById(@RequestBody ${className} ${classname}) {
         int result = ${classname}Service.updateById(${classname});
         return RestResp.successRestResp(result);
     }
@@ -111,7 +111,7 @@ public class ${className}Controller {
      * @return
      */
     @ApiOperation(value = "删除", notes = "")
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteById/{id}", method = RequestMethod.GET)
     public RestResp<Void> delete(@PathVariable("id") String id) {
         int result = ${classname}Service.delete(id);
         return RestResp.successRestResp(result);
