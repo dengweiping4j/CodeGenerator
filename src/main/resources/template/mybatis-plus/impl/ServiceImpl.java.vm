@@ -1,0 +1,59 @@
+package ${package}.${moduleName}.service;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.entity.${className};
+import ${package}.${moduleName}.utils.Pagination;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+@Slf4j
+public class ${className}ServiceImpl implements ${className}Service {
+
+    @Autowired
+    private ${className}Mapper ${classname}Mapper;
+
+    @Override
+    public PageResult<${className}> findPage(${className} ${classname}, Pagination pagination) {
+        Page<${className}> page = new Page<>(pagination.getPage(), pagination.getPageSize());
+        QueryWrapper<${className}> query = new QueryWrapper();
+        IPage<${className}> result = ${classname}Mapper.selectPage(page, query);
+        return result;
+    }
+
+    @Override
+    public List<${className}> selectList(${className} ${classname}) {
+        QueryWrapper<${className}> query = new QueryWrapper();
+        return ${classname}Mapper.selectList(query);
+    }
+
+    @Override
+    public ${className} findById(String id) {
+        return ${classname}Mapper.selectById(id);
+    }
+
+    @Override
+    public int create(${className} ${classname}) {
+        return ${classname}Mapper.insert(${classname});
+    }
+
+    @Override
+    public int updateById(${className} ${classname}) {
+        return ${classname}Mapper.updateById(${classname});
+    }
+
+    @Override
+    public int delete(String id) {
+        return ${classname}Mapper.deleteById(id);
+    }
+}

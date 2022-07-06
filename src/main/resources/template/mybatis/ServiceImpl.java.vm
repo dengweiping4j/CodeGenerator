@@ -1,0 +1,61 @@
+package ${package}.${moduleName}.service;
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.smcaiot.cloud.common.entity.PageParam;
+import com.smcaiot.cloud.common.entity.PageResult;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.service.I${className}Service;
+import ${package}.${moduleName}.entity.${className};
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
+/**
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+@Slf4j
+public class ${className}ServiceImpl implements ${className}Service{
+
+    @Autowired
+    private ${className}Mapper ${classname}Mapper;
+
+    @Override
+    public PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam) {
+        Page<${className}> page = PageHelper.startPage(pageParam);
+        List<${className}> list = ${classname}Mapper.findPage(${classname});
+        PageResult<${className}> pageResult = new PageResult<>();
+        pageResult.setContent(list);
+        pageResult.setTotalElements(page.getTotal());
+        return pageResult;
+    }
+
+    @Override
+    public List<${className}> findAll() {
+        return ${classname}Mapper.findAll();
+    }
+
+    @Override
+    public ${className} findById(String id) {
+        return ${classname}Mapper.findById(id);
+    }
+
+    @Override
+    public int save(${className} ${classname}) {
+        return ${classname}Mapper.insert(${classname});
+    }
+
+    @Override
+    public int updateById(${className} ${classname}) {
+        return ${classname}Mapper.updateById(${classname});
+    }
+
+    @Override
+    public int delete(String id) {
+        return ${classname}Mapper.deleteById(id);
+    }
+}

@@ -43,6 +43,7 @@ public class GeneratorUtil {
                 templates.add("template/mybatis/Mapper.java.vm");
                 templates.add("template/mybatis/Mapper.xml.vm");
                 templates.add("template/mybatis/Service.java.vm");
+                templates.add("template/mybatis/ServiceImpl.java.vm");
                 templates.add("template/mybatis/Controller.java.vm");
                 templates.add("template/mybatis/Entity.java.vm");
                 break;
@@ -50,6 +51,7 @@ public class GeneratorUtil {
                 templates.add("template/mybatis-plus/Mapper.java.vm");
                 templates.add("template/mybatis-plus/Mapper.xml.vm");
                 templates.add("template/mybatis-plus/Service.java.vm");
+                templates.add("template/mybatis-plus/impl/ServiceImpl.java.vm");
                 templates.add("template/mybatis-plus/Controller.java.vm");
                 templates.add("template/mybatis-plus/Entity.java.vm");
                 break;
@@ -192,18 +194,22 @@ public class GeneratorUtil {
 
         if (StringUtils.isNotBlank(templateName)) {
             String afterClassName = templateName.substring(templateName.lastIndexOf("/") + 1, templateName.indexOf("."));
-
             if (templateName.contains("template/jpa/Specifications.java.vm")) {
                 return packagePath + "repository" + File.separator + className + "Specifications.java";
-            } else if (templateName.contains("template/mybatis/Mapper.xml.vm") || templateName.contains("template/mybatis-plus/Mapper.xml.vm")) {
+            }
+            if (templateName.contains("template/mybatis/Mapper.xml.vm") || templateName.contains("template/mybatis-plus/Mapper.xml.vm")) {
                 return packagePath + afterClassName.toLowerCase() + File.separator + className + afterClassName + ".xml";
-            } else if (templateName.contains("template/jpa/Domain.java.vm")
+            }
+            if (templateName.contains("template/jpa/Domain.java.vm")
                     || templateName.contains("template/mybatis/Entity.java.vm")
                     || templateName.contains("template/mybatis-plus/Entity.java.vm")) {
                 return packagePath + afterClassName.toLowerCase() + File.separator + className + ".java";
-            } else {
-                return packagePath + afterClassName.toLowerCase() + File.separator + className + afterClassName + ".java";
             }
+            if (templateName.contains("template/mybatis/impl/ServiceImpl.java.vm")
+                    || templateName.contains("template/mybatis-plus/impl/ServiceImpl.java.vm")) {
+                return packagePath + "service/impl" + File.separator + className + afterClassName + ".java";
+            }
+            return packagePath + afterClassName.toLowerCase() + File.separator + className + afterClassName + ".java";
         }
 
         return null;

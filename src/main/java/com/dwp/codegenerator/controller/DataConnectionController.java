@@ -45,6 +45,7 @@ public class DataConnectionController {
     public ResponseEntity<PaginationSuccessDTO<DataConnectionDTO>> query(@RequestBody DataConnectionDTO queryBuilder, Pagination pagination) {
         Pageable pageable = PageRequest.of(pagination.getPage() - 1, pagination.getPageSize());
         Page<DataConnectionDTO> data = dataConnectionService.query(queryBuilder, pageable);
+        LOGGER.info("请求");
         return ResponseEntity.ok(new PaginationSuccessDTO<>(data));
     }
 

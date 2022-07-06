@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.smcaiot.cloud.common.entity.PageParam;
 import com.smcaiot.cloud.common.entity.PageResult;
 import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.service.I${className}Service;
 import ${package}.${moduleName}.entity.${className};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,39 +17,17 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-@Service
-@Slf4j
-public class ${className}Service {
+public interface ${className}Service {
 
-    @Autowired
-    private ${className}Mapper ${classname}Mapper;
+    PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam);
 
-    public PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam) {
-        Page<${className}> page = PageHelper.startPage(pageParam);
-        List<${className}> list = ${classname}Mapper.findPage(${classname});
-        PageResult<${className}> pageResult = new PageResult<>();
-        pageResult.setContent(list);
-        pageResult.setTotalElements(page.getTotal());
-        return pageResult;
-    }
+    List<${className}> findAll();
 
-    public List<${className}> findAll() {
-        return ${classname}Mapper.findAll();
-    }
+    ${className} findById(String id);
 
-    public ${className} findById(String id) {
-        return ${classname}Mapper.findById(id);
-    }
+    int save(${className} ${classname});
 
-    public int save(${className} ${classname}) {
-        return ${classname}Mapper.insert(${classname});
-    }
+    int updateById(${className} ${classname});
 
-    public int updateById(${className} ${classname}) {
-        return ${classname}Mapper.updateById(${classname});
-    }
-
-    public int delete(String id) {
-        return ${classname}Mapper.deleteById(id);
-    }
+    int delete(String id);
 }
