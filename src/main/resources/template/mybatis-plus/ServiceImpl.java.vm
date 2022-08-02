@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className};
+import ${package}.${moduleName}.entity.param.${className}Param;
 import ${package}.${moduleName}.utils.Pagination;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -18,23 +20,20 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class ${className}ServiceImpl implements ${className}Service {
+public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
 
     @Autowired
     private ${className}Mapper ${classname}Mapper;
 
     @Override
-    public PageResult<${className}> findPage(${className} ${classname}, Pagination pagination) {
-        Page<${className}> page = new Page<>(pagination.getPage(), pagination.getPageSize());
+    public PageResult<${className}> findPage(${className}Param params) {
+        Page<${className}> page = PageHelper.startPage(params);
         QueryWrapper<${className}> query = new QueryWrapper();
-        IPage<${className}> result = ${classname}Mapper.selectPage(page, query);
-        return result;
-    }
-
-    @Override
-    public List<${className}> selectList(${className} ${classname}) {
-        QueryWrapper<${className}> query = new QueryWrapper();
-        return ${classname}Mapper.selectList(query);
+        List<${className}> list = ${classname}Mapper.selectList(query);
+        PageResult<${className}> pageResult = new PageResult<>();
+        pageResult.setContent(list);
+        pageResult.setTotalElements(page.getTotal());
+        return pageResult;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ${className}ServiceImpl implements ${className}Service {
     }
 
     @Override
-    public int create(${className} ${classname}) {
+    public int save(${className} ${classname}) {
         return ${classname}Mapper.insert(${classname});
     }
 

@@ -34,30 +34,13 @@ public class GenerateCodeController {
     @ApiResponses({@ApiResponse(code = 200, message = "操作成功")})
     public void code(@RequestBody GeneratorParamsDTO params, HttpServletResponse response) throws IOException {
         byte[] data = generatorService.generatorCode(params);
-
         response.reset();
         response.setHeader("Content-Disposition", "attachment; filename=\"generator-code.zip\"");
         response.addHeader("Access-Control-Allow-Origin", "http://localhost:8000");
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Content-Length", "" + data.length);
         response.setContentType("application/octet-stream; charset=UTF-8");
-
         IOUtils.write(data, response.getOutputStream());
     }
-
-//    /**
-//     * 生成代码
-//     */
-//    @RequestMapping("/code")
-//    public void code(String dataConnectionId, String tables, String moduleName, String packageName, String author, String generatorType, HttpServletResponse response) throws IOException {
-//        byte[] data = generatorService.generatorCode(dataConnectionId, tables.split(","), moduleName, packageName, author, generatorType);
-//
-//        response.reset();
-//        response.setHeader("Content-Disposition", "attachment; filename=\"generator-code.zip\"");
-//        response.addHeader("Content-Length", "" + data.length);
-//        response.setContentType("application/octet-stream; charset=UTF-8");
-//
-//        IOUtils.write(data, response.getOutputStream());
-//    }
 
 }

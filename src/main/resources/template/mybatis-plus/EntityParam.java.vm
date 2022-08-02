@@ -1,4 +1,4 @@
-package ${package}.${moduleName}.entity;
+package ${package}.${moduleName}.entity.param;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class ${className} implements Serializable{
+public class ${className}Param implements Serializable{
 
 private static final long serialVersionUID=1L;
 
@@ -27,4 +27,15 @@ private ${column.attrType} ${column.LowerAttrName};
 
 #end
 
+/**
+ * 页码
+ */
+@TableField(exist = false)
+private int pageNum = 1;
+
+/**
+ * 每页大小
+ */
+@TableField(exist = false)
+private int pageSize = 10;
 }

@@ -1,6 +1,7 @@
 package com.dwp.codegenerator.domain;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @date 2021/1/9 17:11
  */
 @Data
+@Accessors(chain = true)
 public class GeneratorParams {
 
     //表名

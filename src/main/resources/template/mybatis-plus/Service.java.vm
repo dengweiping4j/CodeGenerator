@@ -1,14 +1,15 @@
 package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.smcaiot.cloud.common.entity.PageParam;
+import com.smcaiot.cloud.common.entity.PageResult;
 import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.service.I${className}Service;
 import ${package}.${moduleName}.entity.${className};
-import ${package}.${moduleName}.utils.Pagination;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -16,15 +17,13 @@ import java.util.List;
  * @author ${author}
  * @date ${datetime}
  */
-public interface  ${className}Service {
+public interface ${className}Service {
 
-    PageResult<${className}> findPage(${className} ${classname}, Pagination pagination);
-
-    List<${className}> selectList(${className} ${classname});
+    PageResult<${className}> findPage(${className}Param params);
 
     ${className} findById(String id);
 
-    int create(${className} ${classname});
+    int save(${className} ${classname});
 
     int updateById(${className} ${classname});
 
