@@ -2,11 +2,11 @@ package ${package}.${moduleName}.service;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.smcaiot.cloud.common.entity.PageParam;
-import com.smcaiot.cloud.common.entity.PageResult;
+import ${package}.${moduleName}.util.PageResult;
+import ${package}.${moduleName}.service.${className}Service;
 import ${package}.${moduleName}.mapper.${className}Mapper;
-import ${package}.${moduleName}.service.I${className}Service;
 import ${package}.${moduleName}.entity.${className};
+import ${package}.${moduleName}.entity.param.${className}Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +25,9 @@ public class ${className}ServiceImpl implements ${className}Service{
     private ${className}Mapper ${classname}Mapper;
 
     @Override
-    public PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam) {
-        Page<${className}> page = PageHelper.startPage(pageParam);
-        List<${className}> list = ${classname}Mapper.findPage(${classname});
+    public PageResult<${className}> findPage(${className}Param params) {
+        Page<${className}> page = PageHelper.startPage(params);
+        List<${className}> list = ${classname}Mapper.findPage(params);
         PageResult<${className}> pageResult = new PageResult<>();
         pageResult.setContent(list);
         pageResult.setTotalElements(page.getTotal());

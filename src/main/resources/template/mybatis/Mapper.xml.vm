@@ -14,7 +14,7 @@
         #end
     </sql>
 
-    <select id="findAll" parameterType="${package}.${moduleName}.entity.${className}" resultMap="BaseResultMap">
+    <select id="findAll" parameterType="${package}.${moduleName}.entity.param.${className}Param" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from ${tableName}

@@ -1,15 +1,8 @@
 package ${package}.${moduleName}.service;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.smcaiot.cloud.common.entity.PageParam;
-import com.smcaiot.cloud.common.entity.PageResult;
-import ${package}.${moduleName}.mapper.${className}Mapper;
-import ${package}.${moduleName}.service.I${className}Service;
 import ${package}.${moduleName}.entity.${className};
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
+import ${package}.${moduleName}.util.PageResult;
+import ${package}.${moduleName}.entity.param.${className}Param;
 
 import java.util.List;
 
@@ -19,7 +12,7 @@ import java.util.List;
  */
 public interface ${className}Service {
 
-    PageResult<${className}> findPage(${className} ${classname}, PageParam pageParam);
+    PageResult<${className}> findPage(${className}Param params);
 
     List<${className}> findAll();
 

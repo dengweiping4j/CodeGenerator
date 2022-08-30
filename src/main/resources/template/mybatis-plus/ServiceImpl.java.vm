@@ -1,17 +1,17 @@
 package ${package}.${moduleName}.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${package}.${moduleName}.mapper.${className}Mapper;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.entity.param.${className}Param;
-import ${package}.${moduleName}.utils.Pagination;
-import org.apache.commons.lang.StringUtils;
+import ${package}.${moduleName}.service.${className}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
-
+import ${package}.${moduleName}.util.PageResult;
 import java.util.List;
 
 /**
@@ -42,13 +42,13 @@ public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${c
     }
 
     @Override
-    public int save(${className} ${classname}) {
-        return ${classname}Mapper.insert(${classname});
+    public boolean insert(${className} ${classname}) {
+        return save(${classname});
     }
 
     @Override
-    public int updateById(${className} ${classname}) {
-        return ${classname}Mapper.updateById(${classname});
+    public boolean update(${className} ${classname}) {
+        return updateById(${classname});
     }
 
     @Override

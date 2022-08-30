@@ -3,20 +3,14 @@ package ${package}.${moduleName}.controller;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.springframework.http.HttpStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.smcaiot.cloud.common.entity.PageParam;
-import com.smcaiot.cloud.common.entity.PageResult;
-import com.smcaiot.cloud.common.entity.RestResp;
+import ${package}.${moduleName}.util.PageResult;
+import ${package}.${moduleName}.util.RestResp;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
+import ${package}.${moduleName}.entity.param.${className}Param;
 
 import java.util.List;
 
@@ -37,8 +31,7 @@ public class ${className}Controller {
     /**
      * 分页查询
      *
-     * @param ${classname}
-     * @param pageParam
+     * @param params
      * @return
      */
     @ApiOperation(value = "分页查询",
@@ -46,8 +39,8 @@ public class ${className}Controller {
             produces = "application/json")
     @ApiResponses({@ApiResponse(code = 200, message = "查询成功")})
     @RequestMapping(value = "/findPage", method = RequestMethod.POST)
-    public RestResp<PageResult<${className}>> findPage(@RequestBody ${className} ${classname}, PageParam pageParam) {
-        PageResult<${className}> result = ${classname}Service.findPage(${classname}, pageParam);
+    public RestResp<PageResult<${className}>> findPage(@RequestBody ${className}Param params) {
+        PageResult<${className}> result = ${classname}Service.findPage(params);
         return RestResp.successRestResp(result);
     }
 
